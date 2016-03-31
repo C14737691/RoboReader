@@ -1,0 +1,493 @@
+/*This tool will allow a user to automatically identify what a document is about. 
+Imagine you have a text document and you need to automatically identify what it is about.  
+As a human that’s easy – just read it.  For this tool, the answer will be the ten most 
+common words from the document  - in the hope that these convey the topic – it’s up to 
+the user to put meaning on the set of words when they see the answer.
+The most basic version of the tool is that  the user enters a file name at the command line, 
+and the system returns the top ten words (with word counts)  such as Christmas (12), train(6) etc.
+So the words returned should be informative.  E.g. if there is a document about 
+Christmas activities in Dublin City Centre, the words from the document that might convey what this document is about are:
+Christmas, Dublin, City, Centre,  Activities, Shops, People, Tree, Lights etc
+It certainly wouldn’t help to have words such as “is, “a, “this”.. etc. 
+And nouns help too  - so perhaps there is a way of identifying unhelpful words?
+
+Advanced features might include things such as:
+•	A GUI to run this 
+•	A GUI to display the results back
+•	The ability for the user to say what words to exclude form the topic finder.
+•	What else?
+1.the user enters a file name at the command line
+2.the system returns the top ten words (with word counts)
+3.the ability for the user to say what words to exclude form the topic finder
+*/
+package com.assignment.oop;
+
+import javax.swing.JFrame;
+
+/*
+ * *******************************
+ * Assignment. Topic: Robo-Reader
+ * Date: 28/02/16
+ * @author Nataliya Kizyuk
+ * *******************************
+ */
+public class RoboToolControl 
+{
+    public static void main(String[] args)throws Exception 
+    {
+        System.out.println("Welcome to the Robo-Reader tool!");
+        System.out.println("This tool will allow you to automatically identify what the document is about.");
+        //instanciating class TxtDocument to run current program from terminal
+        //TxtDocument userDocument = new TxtDocument();
+         
+        //instanciating class RoboScreen to run current program from Java GUI
+        RoboScreen gui = new RoboScreen("Welcome to the Robo-Reader tool!");
+        ScreenActionListener action = new ScreenActionListener("Robo-Reader tool will help you to get description of the text document!");
+        action.AddActionListener();
+         
+    }   
+}
+
+
+package com.assignment.oop;
+
+import java.awt.*;
+import javax.swing.*;
+/**
+ * 18/03/2016
+ * @author Nataliya Kizyuk
+ */
+public class RoboScreen extends JFrame 
+{
+    //parameters/arguments
+    public JButton button1, button2; 
+    public JLabel emptyLabel1,emptyLabel2,label1, label2,label3;
+    static JTextField textField1,textField2;
+    public JTextArea outputText;
+    public int columns = 30;
+    
+    // constructor
+    public RoboScreen(String title) 
+    {
+    	super(title);
+        
+    	setLayout(new FlowLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1400,900);
+        setLocation(1200,600);
+        
+        emptyLabel1 = new JLabel("                                                ");
+        emptyLabel2 = new JLabel("                                                ");
+        
+        ImageIcon icon = new ImageIcon("image.jpg");
+        //REFERENCE: https://docs.oracle.com/javase/tutorial/uiswing/components/html.html
+        
+        label1 = new JLabel("This tool will allow you to automatically identify "
+                           + "what the document is about.  ",icon,JLabel.CENTER);
+        label1.setFont(new Font("Serif", Font.BOLD, 28));
+        add(label1);
+        //add(emptyLabel1);
+        
+        label2 = new JLabel("<html><font color=#CC0000; size = 6>        Please "
+                           + "enter the name of the text document in the format: "
+                           + "document_name.txt</font></html>",JLabel.CENTER);
+        add(label2);
+        
+        textField1 = new JTextField(" Enter the document's name here  ",columns);
+        textField1.setToolTipText("Enter the name of text document here");
+        textField1.setFont(new Font("Serif", Font.PLAIN, 24));
+        add(textField1);
+        
+        button1 = new JButton("<html><font size = 5>Click here to continue</font></html>");
+        add(button1);
+
+        label3 = new JLabel("<html><font color=#CC0000; size = 6>      Please enter "
+                           + "the words that you would like to exclude separated by coma "
+                           + "(e.g.: the, it, is, a, there):  </font></html>",JLabel.CENTER);
+        add(label3);
+        add(emptyLabel2);
+        
+        textField2 = new JTextField(" Enter the words to exclude here ",columns);
+        textField2.setToolTipText("Enter the words to exclude here");
+        textField2.setFont(new Font("Serif", Font.PLAIN, 24));
+        add(textField2);
+      
+        button2 = new JButton("<html><font size = 5>Click here to continue</font></html>");
+       	add(button2);
+        
+        addMouseListener(new ScreenMouseListener());
+        textField1.addMouseListener(new ScreenMouseListener());
+        textField2.addMouseListener(new ScreenMouseListener());
+        
+        //addActionListener(new ScreenActionListener());
+     
+        outputText = new JTextArea(4,50);
+        outputText.setBackground(Color.WHITE);
+        outputText.setBorder(BorderFactory.createTitledBorder( "Description of the Document"));
+        outputText.setFont(new Font("Serif", Font.PLAIN, 24));
+        
+       	setVisible(true);	
+    }  
+}
+
+package com.assignment.oop;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.*;
+import javax.swing.*;
+/**
+ *
+ * @author Nataliya Kizyuk
+ */
+public class ScreenActionListener extends RoboScreen implements ActionListener
+{
+
+    private boolean returnVal;
+    private String expectedInput;
+    private String docName;
+    private String docDescription;
+    private String exclWords;
+    
+    public ScreenActionListener(String title) 
+    {
+        super(title);
+    }
+    
+    public void AddActionListener()
+    {
+        super.textField1.addActionListener(this);
+        super.textField2.addActionListener(this);
+        super.button1.addActionListener(this);
+        super.button2.addActionListener(this);
+        
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event)
+    {	
+        try
+        {
+            if(event.getSource() == super.button1)
+            {
+                super.textField1.selectAll();
+                this.docName = CheckInput(super.textField1.getText());
+
+                JOptionPane.showMessageDialog(this, "Document to read is:  "+ this.docName);
+               
+                System.out.println("button1 clicked");
+                SetOutput(this.docName);
+                
+            }
+            else
+            {
+                super.textField2.selectAll();
+                this.exclWords = super.textField2.getText();
+
+                JOptionPane.showMessageDialog(this, "Words to exclude are: "+ this.exclWords);
+                System.out.println("button2 clicked");
+            }
+        }
+        catch (Exception e) 
+        {
+            System.out.println(e);
+        }
+    }  
+    
+    public String CheckInput(String input)
+    {
+        try
+        {
+            //Checking if inputed String name is ending with ".txt"
+            this.returnVal = input.endsWith(".txt");
+
+            if(this.returnVal == false)
+            {
+                //add(concatenate)".txt" to a document name and save it to the String variable
+                this.expectedInput = input.concat(".txt");
+
+                System.out.println(this.expectedInput);    
+            }
+        }
+            catch (Exception e) 
+        {
+            System.out.println(e);
+        }
+        return this.expectedInput;
+    }  
+    
+     public void SetOutput(String input)
+    {
+        //instanciating classes to read document and output description
+        DocumentReader document = new DocumentReader();
+        WordCounter getWords    = new WordCounter(document.ReadDocument(input));
+        this.docDescription     = getWords.DisplayTenMostUsed();
+        
+        JOptionPane.showMessageDialog(this,"The document - "+this.docName+" is about: "+ "\n\r"+this.docDescription);
+        
+        super.outputText.append("The document - "+input+" is about: "+ "\n\r");
+        super.outputText.append(this.docDescription);
+        add(super.outputText);
+        
+        setVisible(true);
+    }
+    
+}
+
+package com.assignment.oop;
+
+import java.awt.event.*;
+import javax.swing.*;
+
+/**
+ *
+ * @author Nataliya Kizyuk
+ */
+public class ScreenMouseListener extends JFrame implements MouseListener
+{   
+    @Override
+    public void mouseClicked(MouseEvent e) 
+    {
+        System.out.println("mouse is working ");
+        
+        if( e.getSource()== RoboScreen.textField1)
+        {  
+           RoboScreen.textField1.selectAll();
+           RoboScreen.textField1.setText("");
+        }
+        else if( e.getSource()== RoboScreen. textField2)
+        {
+            RoboScreen.textField2.selectAll();
+            RoboScreen.textField2.setText("");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this,"Mouse clicked on empty space");
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) 
+    {
+  
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) 
+    {
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e)
+    {
+       
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) 
+    {
+
+    }  
+    
+}
+
+package com.assignment.oop;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+ /*
+ * *******************************
+ * Assignment. Topic: Robo-Reader
+ * Date: 28/02/16
+ * @author Nataliya Kizyuk
+ * *******************************
+ *Method: Read Document */
+public class DocumentReader 
+{
+    protected File myDocument;
+    protected Scanner myScanner;
+    private String word;
+    protected StringBuffer wordsString;
+    
+    public StringBuffer ReadDocument(String documentName)
+    {
+        try
+        { 
+            this.myDocument  =  new File(documentName);
+            this.myScanner   =  new Scanner(this.myDocument);
+            this.wordsString =  new StringBuffer();
+            
+            System.out.println("Document reader will read "+ documentName);
+            System.out.println(this.myScanner.hasNextLine());
+            
+            while(myScanner.hasNextLine())
+            {
+                this.word = myScanner.next().toLowerCase();
+
+                this.wordsString.append(this.word + " ");  
+            }
+            this.myScanner.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+        
+        return this.wordsString;
+    }
+}
+
+
+package com.assignment.oop;
+import java.io.File;
+import java.util.ArrayList; //reference: https://docs.oracle.com/javase/7/docs/api/java/util/ArrayList.html
+import java.util.AbstractCollection;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
+ /*
+ * *******************************
+ * Assignment. Topic: Robo-Reader
+ * Date: 01/03/16
+ * @author Nataliya Kizyuk
+ * *******************************
+ */
+public class WordCounter 
+{ 
+    private String currentWord;
+    private String nextWord;
+    private StringBuilder docDescription;
+    private ArrayList <Word> finalList;
+    private String[] wordsArray;
+    private int counter;
+    
+    public WordCounter(StringBuffer text)
+    {
+        this.finalList = new ArrayList();
+        this.wordsArray = text.toString().split(" ");
+        this.docDescription = new StringBuilder();
+        try
+        {
+            for (int i = 0; i < this.wordsArray.length; i++)
+            {    
+                this.currentWord = wordsArray[i];
+                this.counter = 1;
+                if(this.currentWord.length()>4)
+                {
+                    for(int j = 0; j < this.wordsArray.length; j++)
+                    {
+                        this.nextWord = wordsArray[j];
+                        if(this.currentWord.equals(this.nextWord))
+                        {
+                            this.counter++; 
+                            this.wordsArray[j] = "";
+                        }   
+                    }
+                    Word word = new Word();
+                    word.setWordValue(currentWord);
+                    word.setWordOccurences(counter);
+                  
+                    this.finalList.add(word);
+                }  
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+    public String DisplayTenMostUsed()
+    { 
+        try
+        {
+        //reference for Collections: http://beginnersbook.com/2013/12/sort-arraylist-in-descending-order-in-java/
+        Collections.sort(this.finalList, Collections.reverseOrder()); 
+        for(int i = 0; i < 10; i++)
+        { 
+            this.currentWord = this.finalList.get(i).toString();
+            this.docDescription.append(this.currentWord.toUpperCase()+", ");
+        } 
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+        return this.docDescription.toString();
+    }
+}
+
+
+package com.assignment.oop;
+/*
+ * *******************************
+ * Assignment. Topic: Robo-Reader
+ * Date: 02/03/16
+ * @author Nataliya Kizyuk
+ * *******************************
+ 
+*reference: http://beginnersbook.com/2013/12/java-arraylist-of-object-sort-example-comparable-and-comparator/*/
+public final class Word implements Comparable<Word>
+{
+    private String wordValue;
+    private int    wordOccurences;
+
+    /**
+     *constructor
+     */
+    public Word() 
+    {
+        this.setWordValue(wordValue);
+        this.setWordOccurences(wordOccurences);   
+    }
+    
+   @Override
+    public String toString() 
+    {
+        return this.wordValue+"("+Integer.toString(this.wordOccurences)+")";
+    }
+
+    /**
+     * @return the wordValue
+     */
+    public String getWordValue() 
+    {
+        return wordValue;
+    }
+
+    /**
+     * @param wordValue the wordValue to set
+     */
+    public void setWordValue(String wordValue) 
+    {
+        this.wordValue = wordValue;
+    }
+
+    /**
+     * @return the wordNumber
+     */
+    public int getWordOccurences() 
+    {
+        return wordOccurences;
+    }
+
+    /**
+     * @param wordOccurences the wordNumber to set
+     */
+    public void setWordOccurences(int wordOccurences) 
+    {
+        this.wordOccurences = wordOccurences;
+    }
+
+    @Override
+    public int compareTo(Word compareWord) 
+    {
+        int compareOccurences =((Word)compareWord).getWordOccurences();
+
+        /* For Descending order */
+        return this.wordOccurences - compareOccurences;
+    }
+}
+
