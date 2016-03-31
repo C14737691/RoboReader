@@ -2,8 +2,10 @@
 package com.assignment.oop;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import static java.lang.Character.isAlphabetic;
 import java.util.Scanner;
-
  /*
  * *******************************
  * Assignment. Topic: Robo-Reader
@@ -13,30 +15,34 @@ import java.util.Scanner;
  *Method: Read Document */
 public class DocumentReader 
 {
-    private File myDocument;
-    private Scanner myScanner;
+    protected File myDocument;
+    protected Scanner myScanner;
+    protected String word;
+    protected StringBuffer wordsString;
     
-    public void ReadDocument(String DocumentName)
+    public StringBuffer ReadDocument(String documentName)
     {
         try
-        {
-            this.myDocument =  new File (DocumentName);
-            this.myScanner  =  new Scanner(this.myDocument);
+        { 
+            this.myDocument  =  new File(documentName);
+            this.myScanner   =  new Scanner(this.myDocument);
+            this.wordsString =  new StringBuffer();
             
             System.out.println(this.myScanner.hasNextLine());
             
-            while(this.myScanner.hasNextLine())
+            while(myScanner.hasNextLine())
             {
-                String line = this.myScanner.nextLine();
-                
-                System.out.println(line);
-            }
+                //REFERENCE: http://alvinalexander.com/blog/post/java/remove-non-alphanumeric-characters-java-string
+                this.word = myScanner.next().replaceAll("[^a-zA-Z]", "").toLowerCase();
 
+                this.wordsString.append(this.word).append(" ");  
+            }
             this.myScanner.close();
         }
         catch(Exception e)
         {
             System.out.println(e);
         }
+        return this.wordsString;
     }
 }

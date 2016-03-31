@@ -8,23 +8,56 @@ import java.util.Scanner;
  * Date: 28/02/16
  * @author Nataliya Kizyuk
  * *******************************
+  Class that takes input from the user
  */
 public class InputGetter 
 {
-    protected String document_name;
-    protected Scanner inputReader;
+    //class attributes
+    private String userInput;
+    private Scanner inputReader;
     
-    public String GetName()
+    //class method that reads input and returns String
+    public String GetInput()
     {
         //to get input (file name)from user from command prompt
-        this.inputReader = new Scanner(System.in);
-        
-        //display message to the user
-        System.out.println("Please enter the name of the text document in the format - document_name.txt: ");
+        this.setInputReader(new Scanner(System.in));
 
         //Getting input in String format
-        this.document_name = this.inputReader.nextLine();
+        this.setUserInput(this.getInputReader().nextLine());
         
-        return this.document_name;
+        return this.getUserInput();
     }  
+
+    /**
+     * @return the document_name
+     */
+    public String getUserInput() 
+    {
+        return userInput;
+    }
+
+    /**
+     * @param userInput the document_name to set
+     */
+    public void setUserInput(String userInput) 
+    {
+        this.userInput = userInput;
+    }
+
+    /**
+     * @return the inputReader
+     */
+    public Scanner getInputReader() 
+    {
+        return inputReader;
+    }
+
+    /**
+     * @param inputReader the inputReader to set
+     */
+    public void setInputReader(Scanner inputReader)
+    {
+        this.inputReader = inputReader;
+    }
+    
 }

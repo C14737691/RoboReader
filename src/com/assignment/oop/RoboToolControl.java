@@ -21,6 +21,13 @@ Advanced features might include things such as:
 3.the ability for the user to say what words to exclude form the topic finder
 */
 package com.assignment.oop;
+
+import java.awt.Font;
+import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import javax.swing.JFrame;
+
 /*
  * *******************************
  * Assignment. Topic: Robo-Reader
@@ -28,22 +35,28 @@ package com.assignment.oop;
  * @author Nataliya Kizyuk
  * *******************************
  */
-public class RoboToolControl 
+public class RoboToolControl //main class
 {
-     public static void main(String[] args) 
+    public String[] listOfTextFiles;
+    
+    public static void main(String[] args)throws Exception
     {
-        //display message to the user
-        System.out.println("Welcome to the Robo-Reader tool! ");
-        System.out.println("This tool will allow you to automatically identify what a document is about.");
-        System.out.println();//empty line
+        //instancing classes to list text files (".txt") in current directory (".")
+        //Reference: http://www.codejava.net/java-se/file-io/how-to-list-files-and-directories-in-a-directory
+        FileNameFilter fileFilter = new FileNameFilter(".txt");
+        File currentDir = new File(".");
         
-        //instanciating classes
-        InputGetter documentName      = new InputGetter();
-        InputTester properName        = new InputTester();
-        DocumentReader textDocument   = new DocumentReader();
-        WordCounter wordList          = new WordCounter();
-        
-        //textDocument.ReadDocument( properName.TestName(documentName.GetName()));
-        wordList.CountWords( properName.TestName(documentName.GetName()));
+        // String array to store the names of all files ending with .txt 
+        String[]listOfTextFiles = currentDir.list(fileFilter);
+
+        String title = "Welcome to the Robo-Reader tool!";
+        System.out.println(title);
+        System.out.println("This tool will allow you to automatically identify what the document is about.");
+       
+        //instancing class TxtDocument to run current program from terminal
+        //TxtDocument userDocument = new TxtDocument();
+         
+        //instancing class RoboScreenActionListener to run current program from Java GUI, get input from user and display result
+        RoboScreenActionListener inputAction = new RoboScreenActionListener(title,listOfTextFiles); 
     }   
 }

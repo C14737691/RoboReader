@@ -1,54 +1,70 @@
 
 package com.assignment.oop;
- /*
+/*
  * *******************************
  * Assignment. Topic: Robo-Reader
  * Date: 02/03/16
  * @author Nataliya Kizyuk
  * *******************************
- */
-public class Word 
+   Class Word that is object of ArrayList
+*reference: http://beginnersbook.com/2013/12/java-arraylist-of-object-sort-example-comparable-and-comparator/*/
+public final class Word implements Comparable<Word>
 {
-   private String wordValue;
-   private int    wordNumber;
-
-    public Word(String wordValue,int wordNumber) 
+    //class attributes
+    private String wordValue;
+    private int    wordOccurences;
+    
+    // class constructor  
+    public Word() 
     {
-        this.wordValue  = wordValue;
-        this.wordNumber = wordNumber;
+        this.setWordValue(wordValue);
+        this.setWordOccurences(wordOccurences);   
     }
     
+    @Override //method that compares word's occurences from reference above
+    public int compareTo(Word compareWord) 
+    {
+        int compareOccurences =((Word)compareWord).getWordOccurences();
+
+        /* For Descending order */
+        return this.wordOccurences - compareOccurences;
+    }
+    
+   @Override // method that returns string in format: word (occurences)
     public String toString() 
     {
-        return this.getWordValue()+","+this.getWordNumber();
+        return this.wordValue+"("+Integer.toString(this.wordOccurences)+")";
     }
 
     /**
      * @return the wordValue
      */
-    public String getWordValue() {
+    public String getWordValue() 
+    {
         return wordValue;
     }
 
     /**
      * @param wordValue the wordValue to set
      */
-    public void setWordValue(String wordValue) {
+    public void setWordValue(String wordValue) 
+    {
         this.wordValue = wordValue;
     }
 
     /**
      * @return the wordNumber
      */
-    public int getWordNumber() {
-        return wordNumber;
+    public int getWordOccurences() 
+    {
+        return wordOccurences;
     }
 
     /**
-     * @param wordNumber the wordNumber to set
+     * @param wordOccurences the wordNumber to set
      */
-    public void setWordNumber(int wordNumber) {
-        this.wordNumber = wordNumber;
+    public void setWordOccurences(int wordOccurences) 
+    {
+        this.wordOccurences = wordOccurences;
     }
-    
 }
