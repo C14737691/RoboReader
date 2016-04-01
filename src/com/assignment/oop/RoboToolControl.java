@@ -41,6 +41,9 @@ public class RoboToolControl //main class
     
     public static void main(String[] args)throws Exception
     {
+        String title = "Welcome to the Robo-Reader tool!";
+        System.out.println(title);
+        
         //instancing classes to list text files (".txt") in current directory (".")
         //Reference: http://www.codejava.net/java-se/file-io/how-to-list-files-and-directories-in-a-directory
         FileNameFilter fileFilter = new FileNameFilter(".txt");
@@ -49,14 +52,10 @@ public class RoboToolControl //main class
         // String array to store the names of all files ending with .txt 
         String[]listOfTextFiles = currentDir.list(fileFilter);
 
-        String title = "Welcome to the Robo-Reader tool!";
-        System.out.println(title);
-        System.out.println("This tool will allow you to automatically identify what the document is about.");
-       
         //instancing class TxtDocument to run current program from terminal
-        //TxtDocument userDocument = new TxtDocument();
+        TxtDocument userDocument = new TxtDocument(listOfTextFiles);
          
         //instancing class RoboScreenActionListener to run current program from Java GUI, get input from user and display result
-        RoboScreenActionListener inputAction = new RoboScreenActionListener(title,listOfTextFiles); 
+        //RoboScreenActionListener inputAction = new RoboScreenActionListener(title,listOfTextFiles); 
     }   
 }

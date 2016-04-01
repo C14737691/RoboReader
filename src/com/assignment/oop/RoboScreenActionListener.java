@@ -99,6 +99,8 @@ public class RoboScreenActionListener extends RoboScreen implements ActionListen
         catch(Exception e)
         {
              System.out.println("Null Pointer ");
+             this.outputText.setText("The system cannot find the document specified! Please Try again!");
+             add(this.outputText);
              JOptionPane.showMessageDialog(this, "<html><font color=#CC0000; size = 6>"
                                           + "The system cannot find the document "
                                           + "specified! Please Try again!</font></html>");
