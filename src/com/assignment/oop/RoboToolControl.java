@@ -53,9 +53,9 @@ public class RoboToolControl //main class
         String[]listOfTextFiles = currentDir.list(fileFilter);
 
         //instancing class TxtDocument to run current program from terminal
-        TxtDocument userDocument = new TxtDocument(listOfTextFiles);
+        //TxtDocument userDocument = new TxtDocument(listOfTextFiles);
          
         //instancing class RoboScreenActionListener to run current program from Java GUI, get input from user and display result
-        //RoboScreenActionListener inputAction = new RoboScreenActionListener(title,listOfTextFiles); 
+        RoboScreenActionListener inputAction = new RoboScreenActionListener(title,listOfTextFiles); 
     }   
 }

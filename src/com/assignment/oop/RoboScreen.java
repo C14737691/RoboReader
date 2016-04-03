@@ -56,8 +56,9 @@ public class RoboScreen extends JFrame
                            + "format: document name.txt</font></html>",JLabel.CENTER);
         add(label2);
         
-        textField1 = new JTextField(" Enter the document's name here  ",columns);
-        textField1.setToolTipText("Enter the name of text document here");
+        textField1 = new JTextField("Enter the name of the text document here  ",columns);
+        textField1.setToolTipText("<html><font size = 6>Click on the text field "
+                                  + "to enter the document </font></html>");
         textField1.setFont(roboScreenFontPlain);
         add(textField1);
         
@@ -70,7 +71,8 @@ public class RoboScreen extends JFrame
         add(label3);
         
         textField2 = new JTextField(" Enter the words to exclude here ",columns);
-        textField2.setToolTipText("Enter the words to exclude here");
+        textField2.setToolTipText("<html><font size = 6>Click on the text field "
+                                  + "to enter the words</font></html>");
         textField2.setFont(roboScreenFontPlain);
         add(textField2);
       
