@@ -8,14 +8,16 @@ import javax.swing.*;
  * 18/03/2016
  * @author Nataliya Kizyuk
  * * *******************************
-   Class that displays GUI to user
+    Class RoboScreen that extends Java Swing Class JFrame.
+ *  It brings in parameters: GUI title, List of text documents
+ *  And displays the GUI to user
  */
 public class RoboScreen extends JFrame 
 {
     //parameters/arguments
     public JButton button1, button2; 
     public JLabel imageLabel,labelCombo,label1, label2, label3;
-    static JTextField textField1,textField2;
+    static JTextField TEXRFIELD1,TEXTFIELD2;
     public JComboBox listOfDoc;
     public ImageIcon icon1,icon2;
     public int columns = 30;
@@ -41,7 +43,7 @@ public class RoboScreen extends JFrame
                            + "what the document is about.  ",icon1,JLabel.CENTER);
         label1.setFont(roboScreenFontBold);
         add(label1);
-        
+       
         labelCombo = new JLabel("List of the text documents to read");
         labelCombo.setFont(roboScreenFontBold);
         add(labelCombo);
@@ -49,32 +51,32 @@ public class RoboScreen extends JFrame
         listOfDoc = new JComboBox(listOfTextDocs);
         listOfDoc.setFont(roboScreenFontPlain);
         add(listOfDoc);
-        
+       
         //REFERENCE: https://docs.oracle.com/javase/tutorial/uiswing/components/html.html
-        label2 = new JLabel("<html><font color=#CC0000; size = 6>Please enter the "
+        label2 = new JLabel("<html><font color=#CC0000; size = 6>Or you can enter the "
                            + "name of the text document from the List above in the "
                            + "format: document name.txt</font></html>",JLabel.CENTER);
         add(label2);
         
-        textField1 = new JTextField("Enter the name of the text document here  ",columns);
-        textField1.setToolTipText("<html><font size = 6>Click on the text field "
+        TEXRFIELD1 = new JTextField("Enter the name of the text document here  ",columns);
+        TEXRFIELD1.setToolTipText("<html><font size = 6>Click on the text field "
                                   + "to enter the document </font></html>");
-        textField1.setFont(roboScreenFontPlain);
-        add(textField1);
+        TEXRFIELD1.setFont(roboScreenFontPlain);
+        add(TEXRFIELD1);
         
         button1 = new JButton("<html><font size = 5>Click here to continue</font></html>");
         add(button1);
 
-        label3 = new JLabel("<html><font color=#CC0000; size = 6>Please enter the "
+        label3 = new JLabel("<html><font color=#CC0000; size = 6>You can enter the "
                            + "words that you would like to exclude separated by coma "
                            + "(e.g.: the, it, is, a, there):  </font></html>",JLabel.CENTER);
         add(label3);
         
-        textField2 = new JTextField(" Enter the words to exclude here ",columns);
-        textField2.setToolTipText("<html><font size = 6>Click on the text field "
+        TEXTFIELD2 = new JTextField(" Enter the words to exclude here ",columns);
+        TEXTFIELD2.setToolTipText("<html><font size = 6>Click on the text field "
                                   + "to enter the words</font></html>");
-        textField2.setFont(roboScreenFontPlain);
-        add(textField2);
+        TEXTFIELD2.setFont(roboScreenFontPlain);
+        add(TEXTFIELD2);
       
         button2 = new JButton("<html><font size = 5>Click here to continue</font></html>");
        	add(button2);
@@ -83,8 +85,8 @@ public class RoboScreen extends JFrame
         add(imageLabel); 
          
         addMouseListener(new ScreenMouseListener());
-        textField1.addMouseListener(new ScreenMouseListener());
-        textField2.addMouseListener(new ScreenMouseListener());
+        TEXRFIELD1.addMouseListener(new ScreenMouseListener());
+        TEXTFIELD2.addMouseListener(new ScreenMouseListener());
         
        	setVisible(true);	
     }  

@@ -9,9 +9,9 @@ import java.util.Collections;
  * Date: 01/03/16
  * @author Nataliya Kizyuk
  * *******************************
-   Class that counts words occurences in the text
+   Class that counts words occurences in the text 
  */
-public class WordCounter 
+public class WordOccurencesCounter 
 { 
     //class attributes
     private String currentWord;
@@ -24,7 +24,7 @@ public class WordCounter
     
     //class constructor that takes in arguments:StringBuffer text(text from document),
     //                                          String excludedWords(words excluded by user)
-    public WordCounter(StringBuffer text, String excludedWords)
+    public WordOccurencesCounter(StringBuffer text, String excludedWords)
     {
         this.finalList       = new ArrayList();//instanciating Class ArrayList
         this.wordsArray      = text.toString().split(" ");//converts string to string array
@@ -48,9 +48,7 @@ public class WordCounter
                             this.wordsArray[j] = "";//remove word by assigning it to empty string
                         }   
                     }
-                    Word word = new Word();//instanciating class Word
-                    word.setWordValue(currentWord);
-                    word.setWordOccurences(counter);
+                    Word word = new Word(currentWord,counter);//instanciating class Word
                   
                     this.finalList.add(word);
                 }  
@@ -61,7 +59,8 @@ public class WordCounter
             System.out.println(e);
         }
     }
-    //method that returns ten most used words of the text document
+    //method that sotrs list of Word objects in reverse order 
+    //and returns ten most used words of the text document
     public String DisplayTenMostUsed()
     { 
         try

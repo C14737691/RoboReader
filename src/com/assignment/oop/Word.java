@@ -6,7 +6,8 @@ package com.assignment.oop;
  * Date: 02/03/16
  * @author Nataliya Kizyuk
  * *******************************
-   Class Word that is object of ArrayList
+ Class Word that is object of ArrayList and implements Interface Comparable
+ It brings in parameters: String wordValue,int wordOccurences.
 *reference: http://beginnersbook.com/2013/12/java-arraylist-of-object-sort-example-comparable-and-comparator/*/
 public final class Word implements Comparable<Word>
 {
@@ -15,7 +16,7 @@ public final class Word implements Comparable<Word>
     private int    wordOccurences;
     
     // class constructor  
-    public Word() 
+    public Word(String wordValue,int wordOccurences) 
     {
         this.setWordValue(wordValue);
         this.setWordOccurences(wordOccurences);   
@@ -33,7 +34,7 @@ public final class Word implements Comparable<Word>
    @Override // method that returns string in format: word (occurences)
     public String toString() 
     {
-        return this.wordValue+"("+Integer.toString(this.wordOccurences)+")";
+        return this.wordValue+" ("+Integer.toString(this.wordOccurences)+")";
     }
 
     /**

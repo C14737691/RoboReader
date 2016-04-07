@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.assignment.oop;
 
 import java.awt.event.*;
@@ -12,7 +8,7 @@ import javax.swing.*;
  * 18/03/2016
  * @author Nataliya Kizyuk
  * * *******************************
-   Class that contains method used by RoboScreen to implement MouseListener
+   Class ScreenMouseListener that contains method used by RoboScreen to implement MouseListener
  */
 public class ScreenMouseListener extends JFrame implements MouseListener
 {   
@@ -21,15 +17,15 @@ public class ScreenMouseListener extends JFrame implements MouseListener
     {
         System.out.println("mouse is working ");
         
-        if( e.getSource()== RoboScreen.textField1)
+        if( e.getSource()== RoboScreen.TEXRFIELD1)
         {  
-           RoboScreen.textField1.selectAll();
-           RoboScreen.textField1.setText("");
+           RoboScreen.TEXRFIELD1.selectAll();
+           RoboScreen.TEXRFIELD1.setText("");
         }
-        else if( e.getSource()== RoboScreen. textField2)
+        else if( e.getSource()== RoboScreen. TEXTFIELD2)
         {
-            RoboScreen.textField2.selectAll();
-            RoboScreen.textField2.setText("");
+            RoboScreen.TEXTFIELD2.selectAll();
+            RoboScreen.TEXTFIELD2.setText("");
         }
         else
         {

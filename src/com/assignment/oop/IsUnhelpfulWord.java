@@ -5,7 +5,10 @@ package com.assignment.oop;
  * 30/03/2016
  * @author Nataliya Kizyuk
  * * *******************************
-   Class that contains array of unhelpful words and checks if passed word is unhelpful
+   Class IsUnhelpfulWord contains array of unhelpful words and checks 
+   if passed word is unhelpful or excluded by user.
+   It brings in parameters: String word, String excludedByUser
+   And returns: boolean true or false
  */
 public class IsUnhelpfulWord 
 {

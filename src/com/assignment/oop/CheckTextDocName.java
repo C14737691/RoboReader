@@ -13,6 +13,8 @@ public class CheckTextDocName
     private boolean returnVal;
     private String expectedInput;
     
+    //Method CheckName that brings in String
+    //And returns checked String
     public String CheckName(String input)
     {
         try

@@ -12,14 +12,17 @@ import java.util.Scanner;
  * Date: 28/02/16
  * @author Nataliya Kizyuk
  * *******************************
- *Method: Read Document */
+ Class DocumentReader that reads text file and append its content to StringBuffer
+ */
 public class DocumentReader 
 {
+    //class parameters
     protected File myDocument;
     protected Scanner myScanner;
     protected String word;
     protected StringBuffer wordsString;
     
+    //*Method: Read Document that brings in String and returns StringBuffer
     public StringBuffer ReadDocument(String documentName)
     {
         try

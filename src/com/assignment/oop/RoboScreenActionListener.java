@@ -10,7 +10,9 @@ import javax.swing.*;
  * 30/03/2016
  * @author Nataliya Kizyuk
  * * *******************************
-   Class that gets input and sets output to the RoboScreen, it extends RoboScreen Class
+   Class RoboScreenActionListener that extends Class RoboScreen and implements 
+ * Java Swing Interface ActionListenergets.
+ * It gets input from the RoboScreen and sets output to the RoboScreen
  */
 public class RoboScreenActionListener extends RoboScreen implements ActionListener
 {
@@ -25,10 +27,11 @@ public class RoboScreenActionListener extends RoboScreen implements ActionListen
     public RoboScreenActionListener(String title, String[] listOfTextDocs) 
     {
         super(title,listOfTextDocs);
-        super.textField1.addActionListener(this);
-        super.textField2.addActionListener(this);
+        super.TEXRFIELD1.addActionListener(this);
+        super.TEXTFIELD2.addActionListener(this);
         super.button1.addActionListener(this);
         super.button2.addActionListener(this);
+        super.listOfDoc.addActionListener(this);
          //reference: https://docs.oracle.com/javase/tutorial/uiswing/components/textarea.html
         this.outputText = new JTextArea(4,40);
         this.outputText.setBackground(Color.WHITE);
@@ -41,18 +44,24 @@ public class RoboScreenActionListener extends RoboScreen implements ActionListen
     {	
         try
         {
-            if(event.getSource() == super.button1)//when button 1 is clicked
+            if(event.getSource() == super.listOfDoc)//when button 1 is clicked
+            {
+                this.docName  = super.listOfDoc.getSelectedItem().toString();;
+                SetOutput(this.docName,this.exclWords);//calling method SetOutput()
+                System.out.println("document clicked");   
+            }
+            else if(event.getSource() == super.button1)//when button 1 is clicked
             {
                 this.format = new CheckTextDocName();//instanciating Class CheckTextDocName
-                this.docName  = this.format.CheckName(GetInput(super.textField1, this.docName));
+                this.docName  = this.format.CheckName(GetInput(super.TEXRFIELD1, this.docName));
                 SetOutput(this.docName,this.exclWords);//calling method SetOutput()
                 System.out.println("button1 clicked");   
             }
             else //when button 2 is clicked
             {
-                if(!this.docName.isEmpty()) //and name of document is entered by user
+                if(!this.docName.isEmpty()) //name of document is given by user
                 {
-                    this.exclWords = GetInput(super.textField2, this.exclWords);
+                    this.exclWords = GetInput(super.TEXTFIELD2, this.exclWords);
                     SetOutput(this.docName,this.exclWords);
                     System.out.println("button2 clicked"); 
                 }
@@ -77,6 +86,7 @@ public class RoboScreenActionListener extends RoboScreen implements ActionListen
         JOptionPane.showMessageDialog(this,"<html><font size = 5>You enter: \""+ text+"\"! "
                                      +"Please press \"OK\" to continue or press \"x\""
                                      + " to exit</font></html>");
+        textField.setText("");
         return text;
     }
     
@@ -87,7 +97,7 @@ public class RoboScreenActionListener extends RoboScreen implements ActionListen
         {
             //instanciating classes to read document and output description
             DocumentReader document = new DocumentReader();
-            WordCounter getWords    = new WordCounter(document.ReadDocument(input1),input2.replaceAll(",", " "));
+            WordOccurencesCounter getWords    = new WordOccurencesCounter(document.ReadDocument(input1),input2.replaceAll(",", " "));
             this.docDescription     = getWords.DisplayTenMostUsed();
             this.outputText.setText("");
             this.outputText.append("The document - "+input1+" is about: "+ "\n\r");
